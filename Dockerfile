@@ -31,8 +31,8 @@ RUN /etc/init.d/ssh start;/etc/init.d/ssh stop
 
 
 # make sure the package repository is up to date
-ADD nginx/nginx.repo /etc/yum.repos.d/nginx.repo
-RUN chmod 0644 /etc/yum.repos.d/nginx.repo
+#ADD nginx/nginx.repo /etc/yum.repos.d/nginx.repo
+#RUN chmod 0644 /etc/yum.repos.d/nginx.repo
 
 # install memcached
 RUN apt-get install -y nginx
@@ -59,5 +59,5 @@ ADD supervisor/supervisord.conf /etc/supervisord.conf
 
 EXPOSE 2222 80
 
-CMD ["/usr/bin/supervisord"]
+CMD ["/usr/local/bin/supervisord"]
 
