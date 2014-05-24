@@ -9,7 +9,7 @@ MAINTAINER yoshiso
 RUN yum -y update
 
 #Dev tools for all Docker
-RUN yum -y install git vim
+RUN yum -y install git vim wget
 RUN yum -y install passwd openssh openssh-server openssh-clients sudo
 
 ########################################## sshd ##############################################
