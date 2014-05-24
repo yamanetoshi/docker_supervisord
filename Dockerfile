@@ -2,30 +2,30 @@
 #
 # VERSION       1
 
-FROM centos
+FROM ubuntu
 
-MAINTAINER yoshiso
+MAINTAINER yamanetoshi
 
-RUN yum -y update
+RUN apt-get update
 
 #Dev tools for all Docker
-RUN yum -y install git vim
-RUN yum -y install passwd openssh openssh-server openssh-clients sudo
+RUN apt-get install -y git-core vim
+RUN apt-get install -y passwd ssh openssh-server openssh-client sudo
 
 ########################################## sshd ##############################################
 
 # create user
-RUN useradd yoshiso
-RUN passwd -f -u yoshiso
-RUN mkdir -p /home/yoshiso/.ssh;chown yoshiso /home/yoshiso/.ssh; chmod 700 /home/yoshiso/.ssh
-ADD sshd/authorized_keys /home/yoshiso/.ssh/authorized_keys
-RUN chown yoshiso /home/yoshiso/.ssh/authorized_keys;chmod 600 /home/yoshiso/.ssh/authorized_keys
+RUN useradd rms
+#RUN passwd -f -u rms
+RUN mkdir -p /home/rms/.ssh;chown rms /home/rms/.ssh; chmod 700 /home/rms/.ssh
+ADD sshd/authorized_keys /home/rms/.ssh/authorized_keys
+RUN chown rms /home/rms/.ssh/authorized_keys;chmod 600 /home/rms/.ssh/authorized_keys
 # setup sudoers
-RUN echo "yoshiso ALL=(ALL) ALL" >> /etc/sudoers.d/yoshiso
+RUN echo "rms ALL=(ALL) ALL" >> /etc/sudoers.d/rms
 
 # setup sshd
 ADD sshd/sshd_config /etc/ssh/sshd_config
-RUN /etc/init.d/sshd start;/etc/init.d/sshd stop
+RUN /etc/init.d/ssh start;/etc/init.d/ssh stop
 
 ########################################## Nginx ##############################################
 
@@ -35,7 +35,7 @@ ADD nginx/nginx.repo /etc/yum.repos.d/nginx.repo
 RUN chmod 0644 /etc/yum.repos.d/nginx.repo
 
 # install memcached
-RUN yum install -y nginx
+RUN apt-get install -y nginx
 
 ADD nginx/nginx.conf /etc/nginx/nginx.conf
 Add nginx/default.conf /etc/nginx/conf.d/default.conf
