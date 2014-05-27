@@ -9,17 +9,23 @@ MAINTAINER yamanetoshi
 RUN apt-get update
 
 #Dev tools for all Docker
-RUN apt-get install -y git-core vim
+RUN apt-get install -y git-core vim wget
 RUN apt-get install -y passwd ssh openssh-server openssh-client sudo
 
 ########################################## sshd ##############################################
 
 # create user
-RUN useradd rms
+RUN useradd -m rms 
 #RUN passwd -f -u rms
-RUN mkdir -p /home/rms/.ssh;chown rms /home/rms/.ssh; chmod 700 /home/rms/.ssh
-ADD sshd/authorized_keys /home/rms/.ssh/authorized_keys
-RUN chown rms /home/rms/.ssh/authorized_keys;chmod 600 /home/rms/.ssh/authorized_keys
+#RUN mkdir -p /home/rms/.ssh;chown rms /home/rms/.ssh; chmod 700 /home/rms/.ssh
+#ADD sshd/authorized_keys /home/rms/.ssh/authorized_keys
+#RUN chown rms /home/rms/.ssh/authorized_keys;chmod 600 /home/rms/.ssh/authorized_keys
+
+ADD sshd/authorized_keys /home/rms/.ssh/
+RUN chmod 600 /home/rms/.ssh/authorized_keys
+RUN chown -R rms:rms /home/rms/.ssh
+RUN chmod 700 /home/rms/.ssh
+
 # setup sudoers
 RUN echo "rms ALL=(ALL) ALL" >> /etc/sudoers.d/rms
 
